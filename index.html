@@ -819,7 +819,7 @@
 
     try {
       // Cria conta no sistema
-      const regRes = await fetch(`${API}/tenant/registrar`, {
+      const regRes = await fetch(`${API}/auth/registrar-tenant`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
