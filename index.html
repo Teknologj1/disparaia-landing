@@ -844,7 +844,8 @@
       if (!pagRes.ok) throw new Error(pagData.erro || 'Erro ao criar pagamento');
 
       // Redireciona para o Mercado Pago
-      window.location.href = pagData.init_point;
+      //window.location.href = pagData.init_point;
+      window.location.href = pagData.sandbox_init_point;
 
     } catch (err) {
       alert('Erro: ' + err.message);
