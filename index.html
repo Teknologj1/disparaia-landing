@@ -188,7 +188,7 @@
     <a href="#precos">Preços</a>
     <a href="#faq">FAQ</a>
   </div>
-  <a onclick="abrirCheckout('starter','mensal','Plano Mensal — R$ 97/mês')" class="btn-white" style="cursor:pointer;">Criar minha conta grátis →</a>
+  <a onclick="abrirCheckout('teste','mensal','Teste — R$ 1,00')" class="btn-white" style="cursor:pointer;">Criar minha conta grátis →</a>
 </nav>
 
 <!-- HERO -->
@@ -844,8 +844,8 @@
       if (!pagRes.ok) throw new Error(pagData.erro || 'Erro ao criar pagamento');
 
       // Redireciona para o Mercado Pago
-      //window.location.href = pagData.init_point;
-      window.location.href = pagData.sandbox_init_point;
+      window.location.href = pagData.init_point;
+      //window.location.href = pagData.sandbox_init_point;
 
     } catch (err) {
       alert('Erro: ' + err.message);
