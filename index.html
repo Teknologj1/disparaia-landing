@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DisparaIA — Disparo de WhatsApp com Inteligência Artificial</title>
+  <meta name="description" content="Envie mensagens no WhatsApp com IA que humaniza cada texto. Sem robôs, sem ban. Mais vendas para seu varejo ou e-commerce." />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --dark: #0f0f1a;
+      --dark2: #1a1a2e;
+      --gray: #f8f8f8;
+      --text: #1a1a2e;
+      --muted: #666;
+      --white: #ffffff;
+      --green: #22c55e;
+      --radius: 12px;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); background: var(--white); }
+    a { text-decoration: none; color: inherit; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 5%; background: var(--white); border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+    .logo { font-size: 22px; font-weight: 700; color: var(--primary); }
+    .logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; font-size: 14px; color: var(--muted); }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta { background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+    .nav-cta:hover { background: var(--primary-dark); }
+    .hero { background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%); color: #fff; padding: 6rem 5% 5rem; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.4); color: #a5b4fc; padding: 6px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 2rem; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .hero h1 span { color: #818cf8; }
+    .hero p { font-size: 18px; color: #94a3b8; max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--primary); color: #fff; padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 600; transition: all 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: #fff; padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 500; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; display: inline-block; }
+    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+    .hero-stats { display: flex; gap: 3rem; justify-content: center; margin-top: 4rem; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 700; color: #fff; }
+    .stat-label { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+    section { padding: 5rem 5%; }
+    .section-label { font-size: 13px; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+    .section-title { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; margin-bottom: 1rem; }
+    .section-sub { font-size: 17px; color: var(--muted); max-width: 560px; line-height: 1.7; }
+    .center { text-align: center; }
+    .center .section-sub { margin: 0 auto; }
+    .problema { background: #fff9f9; }
+    .problema-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 3rem; }
+    .problema-card { background: #fff; border: 1px solid #fee2e2; border-radius: var(--radius); padding: 1.5rem; }
+    .problema-icon { font-size: 28px; margin-bottom: 12px; }
+    .problema-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #dc2626; }
+    .problema-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 3rem; }
+    .step { text-align: center; padding: 2rem 1.5rem; background: var(--gray); border-radius: var(--radius); }
+    .step-num { width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; margin: 0 auto 1rem; }
+    .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .features-bg { background: var(--dark); color: #fff; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 3rem; }
+    .feature-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 1.75rem; transition: border-color 0.2s; }
+    .feature-card:hover { border-color: rgba(99,102,241,0.4); }
+    .feature-icon { font-size: 32px; margin-bottom: 1rem; }
+    .feature-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; color: #fff; }
+    .feature-card p { font-size: 14px; color: #94a3b8; line-height: 1.6; }
+
+    /* PARA QUEM É */
+    .paraquem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 3rem; }
+    .paraquem-card { border-radius: var(--radius); padding: 1.75rem; border: 1px solid #eee; background: #fff; }
+    .paraquem-card:hover { border-color: var(--primary); box-shadow: 0 4px 20px rgba(99,102,241,0.1); }
+    .paraquem-emoji { font-size: 36px; margin-bottom: 1rem; }
+    .paraquem-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+    .paraquem-card ul { list-style: none; }
+    .paraquem-card ul li { font-size: 14px; color: var(--muted); padding: 5px 0; display: flex; gap: 8px; }
+    .paraquem-card ul li::before { content: "→"; color: var(--primary); flex-shrink: 0; }
+
+    /* COMPARATIVO */
+    .comp-bg { background: var(--gray); }
+    .comp-table { width: 100%; border-collapse: collapse; margin-top: 3rem; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .comp-table th { padding: 14px 20px; font-size: 14px; font-weight: 600; text-align: center; background: var(--dark2); color: #fff; }
+    .comp-table th:first-child { text-align: left; }
+    .comp-table th.destaque { background: var(--primary); }
+    .comp-table td { padding: 13px 20px; font-size: 14px; border-bottom: 1px solid #f0f0f0; text-align: center; color: var(--muted); }
+    .comp-table td:first-child { text-align: left; font-weight: 500; color: var(--text); }
+    .comp-table tr:last-child td { border-bottom: none; }
+    .comp-table tr:hover td { background: #fafafa; }
+    .check { color: var(--green); font-size: 18px; font-weight: 700; }
+    .cross { color: #ef4444; font-size: 18px; }
+    .partial { color: #f59e0b; font-size: 13px; font-weight: 500; }
+
+    /* CASOS DE USO */
+    .casos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 3rem; }
+    .caso-card { border-radius: var(--radius); overflow: hidden; border: 1px solid #eee; }
+    .caso-header { padding: 1.25rem 1.5rem; font-weight: 600; font-size: 15px; color: #fff; }
+    .caso-body { padding: 1.25rem 1.5rem; background: #fff; }
+    .caso-body p { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+    .caso-resultado { display: flex; gap: 16px; flex-wrap: wrap; }
+    .caso-num { text-align: center; }
+    .caso-num strong { display: block; font-size: 22px; font-weight: 700; color: var(--text); }
+    .caso-num span { font-size: 12px; color: var(--muted); }
+
+    /* GARANTIA */
+    .garantia-box { max-width: 700px; margin: 3rem auto 0; background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1.5px solid #86efac; border-radius: 16px; padding: 2.5rem; text-align: center; }
+    .garantia-icon { font-size: 48px; margin-bottom: 1rem; }
+    .garantia-box h3 { font-size: 22px; font-weight: 700; margin-bottom: 1rem; color: #15803d; }
+    .garantia-box p { font-size: 15px; color: #166534; line-height: 1.7; }
+
+    /* SELOS */
+    .selos { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 3rem; }
+    .selo { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 14px 20px; font-size: 14px; font-weight: 500; color: var(--text); }
+    .selo-icon { font-size: 24px; }
+
+    /* PRECOS */
+    .preco-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 3rem; max-width: 900px; margin-left: auto; margin-right: auto; }
+    .preco-card { background: #fff; border: 1.5px solid #eee; border-radius: var(--radius); padding: 2rem; text-align: center; transition: all 0.2s; }
+    .preco-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+    .preco-card.destaque { border-color: var(--primary); position: relative; }
+    .preco-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; font-size: 12px; font-weight: 600; padding: 4px 16px; border-radius: 20px; white-space: nowrap; }
+    .preco-nome { font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
+    .preco-valor { font-size: 3rem; font-weight: 700; color: var(--text); }
+    .preco-valor span { font-size: 16px; font-weight: 400; color: var(--muted); }
+    .preco-anual { font-size: 13px; color: var(--green); margin: 6px 0 1.5rem; font-weight: 500; }
+    .preco-lista { list-style: none; text-align: left; margin: 1.5rem 0; }
+    .preco-lista li { font-size: 14px; color: var(--muted); padding: 7px 0; border-bottom: 1px solid #f5f5f5; display: flex; gap: 8px; align-items: flex-start; }
+    .preco-lista li:last-child { border-bottom: none; }
+    .preco-lista li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .btn-preco { display: block; width: 100%; padding: 13px; border-radius: 8px; font-size: 15px; font-weight: 600; text-align: center; margin-top: 1.5rem; transition: all 0.2s; cursor: pointer; }
+    .btn-preco-primary { background: var(--primary); color: #fff; border: none; }
+    .btn-preco-primary:hover { background: var(--primary-dark); }
+    .btn-preco-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+    .btn-preco-outline:hover { background: var(--primary); color: #fff; }
+    .depoi-bg { background: var(--gray); }
+    .depoi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 3rem; }
+    .depoi-card { background: #fff; border-radius: var(--radius); padding: 1.5rem; border: 1px solid #eee; }
+    .depoi-stars { color: #f59e0b; font-size: 16px; margin-bottom: 12px; }
+    .depoi-text { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 1rem; font-style: italic; }
+    .depoi-autor { display: flex; align-items: center; gap: 10px; }
+    .depoi-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+    .depoi-nome { font-size: 14px; font-weight: 600; }
+    .depoi-cargo { font-size: 12px; color: var(--muted); }
+    .faq-list { max-width: 700px; margin: 3rem auto 0; }
+    .faq-item { border-bottom: 1px solid #eee; }
+    .faq-q { width: 100%; text-align: left; background: none; border: none; padding: 1.25rem 0; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text); }
+    .faq-q:hover { color: var(--primary); }
+    .faq-a { font-size: 15px; color: var(--muted); line-height: 1.7; padding-bottom: 1.25rem; display: none; }
+    .faq-a.open { display: block; }
+    .faq-icon { font-size: 20px; color: var(--primary); flex-shrink: 0; }
+    .cta-final { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; text-align: center; padding: 6rem 5%; }
+    .cta-final h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; margin-bottom: 1rem; }
+    .cta-final p { font-size: 17px; color: rgba(255,255,255,0.8); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .btn-white { background: #fff; color: var(--primary); padding: 14px 36px; border-radius: 10px; font-size: 16px; font-weight: 700; display: inline-block; transition: all 0.2s; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .cta-garantia { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 1rem; }
+    footer { background: var(--dark); color: #94a3b8; padding: 3rem 5%; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-logo { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 1rem; }
+    .footer-logo span { color: #fff; }
+    .footer-desc { font-size: 14px; line-height: 1.7; color: #64748b; }
+    .footer-col h4 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .footer-col a { display: block; font-size: 14px; color: #64748b; margin-bottom: 8px; transition: color 0.2s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid #1e293b; padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #475569; flex-wrap: wrap; gap: 12px; }
+    .aviso { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 12px 18px; font-size: 13px; color: #92400e; max-width: 700px; margin: 2rem auto 0; text-align: center; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { gap: 2rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .comp-table { font-size: 12px; }
+      .comp-table th, .comp-table td { padding: 10px 12px; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Dispara<span>IA</span></div>
+  <div class="nav-links">
+    <a href="#para-quem">Para quem</a>
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#comparativo">Comparativo</a>
+    <a href="#precos">Preços</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="https://painel-disparador.vercel.app" class="nav-cta">Começar grátis</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🤖 IA que escreve como humano — sem ban</div>
+  <h1>Dispare mensagens no WhatsApp que <span>parecem escritas por você</span></h1>
+  <p>A DisparaIA usa inteligência artificial para humanizar cada mensagem automaticamente. Mais vendas, zero risco de bloqueio para seu varejo ou e-commerce.</p>
+  <div class="hero-btns">
+    <a href="https://painel-disparador.vercel.app" class="btn-primary">Testar grátis por 7 dias</a>
+    <a href="#como-funciona" class="btn-secondary">Ver como funciona →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Taxa de entrega</div></div>
+    <div class="stat"><div class="stat-num">5x</div><div class="stat-label">Mais respostas vs robô</div></div>
+    <div class="stat"><div class="stat-num">+300</div><div class="stat-label">Negócios atendidos</div></div>
+    <div class="stat"><div class="stat-num">7 dias</div><div class="stat-label">Grátis para testar</div></div>
+  </div>
+</section>
+
+<!-- PROBLEMA -->
+<section class="problema">
+  <div class="center">
+    <div class="section-label">O problema</div>
+    <h2 class="section-title">Por que seu disparo atual não funciona?</h2>
+    <p class="section-sub">Ferramentas comuns enviam mensagens idênticas para centenas de pessoas. O WhatsApp detecta e bloqueia.</p>
+  </div>
+  <div class="problema-grid">
+    <div class="problema-card">
+      <div class="problema-icon">🚫</div>
+      <h3>Número banido</h3>
+      <p>Mensagens iguais para muitas pessoas acionam os filtros anti-spam do WhatsApp. Resultado: número bloqueado sem aviso.</p>
+    </div>
+    <div class="problema-card">
+      <div class="problema-icon">🤖</div>
+      <h3>Parece robô</h3>
+      <p>Clientes percebem quando é automático e ignoram. A taxa de resposta cai e suas vendas somem junto.</p>
+    </div>
+    <div class="problema-card">
+      <div class="problema-icon">⏰</div>
+      <h3>Horários errados</h3>
+      <p>Mensagens fora do horário comercial irritam clientes e aumentam os bloqueios. Ninguém controla isso manualmente.</p>
+    </div>
+    <div class="problema-card">
+      <div class="problema-icon">📊</div>
+      <h3>Sem controle</h3>
+      <p>Você não sabe quem recebeu, quem abriu, quais mensagens funcionaram. É disparo no escuro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM -->
+<section id="para-quem">
+  <div class="center">
+    <div class="section-label">Para quem é</div>
+    <h2 class="section-title">Feito para quem vende de verdade</h2>
+    <p class="section-sub">Seja loja física ou online, a DisparaIA se encaixa no seu negócio.</p>
+  </div>
+  <div class="paraquem-grid">
+    <div class="paraquem-card">
+      <div class="paraquem-emoji">🏪</div>
+      <h3>Varejo físico</h3>
+      <ul>
+        <li>Aviso de promoções e liquidações</li>
+        <li>Reativação de clientes inativos</li>
+        <li>Confirmação de reservas e pedidos</li>
+        <li>Pós-venda e fidelização</li>
+        <li>Lançamento de novidades</li>
+      </ul>
+    </div>
+    <div class="paraquem-card">
+      <div class="paraquem-emoji">🛒</div>
+      <h3>E-commerce</h3>
+      <ul>
+        <li>Recuperação de carrinho abandonado</li>
+        <li>Acompanhamento de pedido e entrega</li>
+        <li>Promoções relâmpago e Flash Sale</li>
+        <li>Recompra e upsell automático</li>
+        <li>Avaliação pós-compra</li>
+      </ul>
+    </div>
+    <div class="paraquem-card">
+      <div class="paraquem-emoji">💼</div>
+      <h3>Prestadores de serviço</h3>
+      <ul>
+        <li>Confirmação de agendamentos</li>
+        <li>Lembrete de consulta ou visita</li>
+        <li>Envio de orçamentos</li>
+        <li>Follow-up de propostas</li>
+        <li>Renovação de contratos</li>
+      </ul>
+    </div>
+    <div class="paraquem-card">
+      <div class="paraquem-emoji">🏥</div>
+      <h3>Clínicas e saúde</h3>
+      <ul>
+        <li>Confirmação de consultas</li>
+        <li>Lembretes de retorno</li>
+        <li>Campanhas de prevenção</li>
+        <li>Resultados e laudos</li>
+        <li>Promoções de pacotes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona" style="background:var(--gray);">
+  <div class="center">
+    <div class="section-label">Como funciona</div>
+    <h2 class="section-title">Do zero ao disparo em 5 minutos</h2>
+    <p class="section-sub">Interface simples, sem precisar de técnico ou conhecimento avançado.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Conecte seu WhatsApp</h3>
+      <p>Escaneie o QR Code direto no painel. Seu número fica conectado e pronto para disparar em segundos.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Importe seus contatos</h3>
+      <p>Suba uma planilha CSV ou adicione contatos manualmente. Organize em grupos por segmento ou valor de compra.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Escreva uma vez</h3>
+      <p>Digite sua mensagem uma única vez. A IA cria automaticamente 5 variações naturais para evitar detecção de spam.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Defina o horário</h3>
+      <p>Configure entre que horas pode disparar. O sistema pausa e retoma sozinho — do ponto onde parou.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <h3>Acompanhe os resultados</h3>
+      <p>Dashboard em tempo real: enviados, erros, campanhas ativas. Tudo em um só lugar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS DE USO -->
+<section>
+  <div class="center">
+    <div class="section-label">Casos de uso</div>
+    <h2 class="section-title">Resultados reais de quem usa</h2>
+    <p class="section-sub">Veja como negócios como o seu estão usando a DisparaIA para vender mais.</p>
+  </div>
+  <div class="casos-grid">
+    <div class="caso-card">
+      <div class="caso-header" style="background:#6366f1;">🛒 E-commerce de moda — Recuperação de carrinho</div>
+      <div class="caso-body">
+        <p>Loja virtual disparou para clientes que abandonaram o carrinho há menos de 24h com mensagem personalizada e foto do produto.</p>
+        <div class="caso-resultado">
+          <div class="caso-num"><strong>34%</strong><span>taxa de resposta</span></div>
+          <div class="caso-num"><strong>18%</strong><span>converteram em venda</span></div>
+          <div class="caso-num"><strong>R$ 12k</strong><span>recuperados em 30 dias</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="caso-card">
+      <div class="caso-header" style="background:#0891b2;">🏪 Loja de calçados — Promoção relâmpago</div>
+      <div class="caso-body">
+        <p>Disparou promoção de fim de coleção para base de 800 clientes com imagem do produto e link. Mensagens variadas pela IA.</p>
+        <div class="caso-resultado">
+          <div class="caso-num"><strong>800</strong><span>mensagens enviadas</span></div>
+          <div class="caso-num"><strong>Zero</strong><span>banimentos</span></div>
+          <div class="caso-num"><strong>2 dias</strong><span>para esgotar estoque</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="caso-card">
+      <div class="caso-header" style="background:#059669;">🏥 Clínica odontológica — Reativação</div>
+      <div class="caso-body">
+        <p>Disparou para pacientes sem consulta há mais de 6 meses com oferta de limpeza dental. Mensagem humanizada com nome do paciente.</p>
+        <div class="caso-resultado">
+          <div class="caso-num"><strong>41%</strong><span>responderam</span></div>
+          <div class="caso-num"><strong>67</strong><span>agendamentos</span></div>
+          <div class="caso-num"><strong>R$ 8.4k</strong><span>em faturamento</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECURSOS -->
+<section id="recursos" class="features-bg">
+  <div class="center">
+    <div class="section-label" style="color:#818cf8;">Recursos</div>
+    <h2 class="section-title" style="color:#fff;">Tudo que você precisa em um só lugar</h2>
+    <p class="section-sub" style="color:#94a3b8;margin:0 auto;">Tecnologia de ponta com interface simples. Sem precisar de técnico.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🧠</div>
+      <h3>IA que humaniza mensagens</h3>
+      <p>Gera variações naturais da sua mensagem. Cada pessoa recebe um texto diferente — como se fosse digitado na hora.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⌨️</div>
+      <h3>Simulação de digitando</h3>
+      <p>Antes de cada mensagem, o sistema simula que está digitando. Exatamente como uma pessoa real faria.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🕐</div>
+      <h3>Janela de horário</h3>
+      <p>Define entre 8h e 18h, por exemplo. O sistema dispara só nesse período e retoma exatamente do ponto onde parou.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📁</div>
+      <h3>Importação CSV e grupos</h3>
+      <p>Importe planilhas inteiras ou crie grupos automáticos de 20 em 20 contatos para organizar seus disparos.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🖼️</div>
+      <h3>Envio de mídia</h3>
+      <p>Imagens, vídeos, áudios e documentos junto com a mensagem. Faça upload direto do seu computador.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Dashboard completo</h3>
+      <p>Acompanhe em tempo real quantas mensagens foram enviadas, erros, campanhas ativas e histórico completo.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔄</div>
+      <h3>Reenvio inteligente</h3>
+      <p>Reenvie campanhas finalizadas para os mesmos contatos ou selecione novos — com um clique.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏢</div>
+      <h3>Painel com sua marca</h3>
+      <p>Coloque o logo e as cores da sua empresa. Seu painel com a sua identidade visual.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔐</div>
+      <h3>Dados 100% seus</h3>
+      <p>Seus contatos e campanhas ficam em banco de dados isolado. Nenhum outro usuário acessa suas informações.</p>
+    </div>
+  </div>
+  <div class="aviso">⚠️ Use com responsabilidade. Recomendamos intervalos de 30–60 segundos entre mensagens e respeito ao horário comercial para proteger seu número.</div>
+</section>
+
+<!-- COMPARATIVO -->
+<section id="comparativo" class="comp-bg">
+  <div class="center">
+    <div class="section-label">Comparativo</div>
+    <h2 class="section-title">Por que a DisparaIA é diferente?</h2>
+    <p class="section-sub">Veja o que só a DisparaIA oferece que as outras ferramentas não têm.</p>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Recurso</th>
+          <th class="destaque">DisparaIA ✓</th>
+          <th>Z-API</th>
+          <th>Disparos genéricos</th>
+          <th>Manual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>IA humanizando mensagens automaticamente</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Simulação de digitando antes de enviar</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="partial">Parcial</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Janela de horário com retomada automática</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Upload de mídia direto do computador</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="partial">Só URL</span></td>
+          <td><span class="partial">Só URL</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>Dashboard com métricas em tempo real</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="partial">Básico</span></td>
+          <td><span class="partial">Básico</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Grupos automáticos de contatos</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">Parcial</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Painel com logo e cor da sua empresa</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Delay humanizado anti-ban</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="partial">Manual</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Suporte em português</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="partial">Parcial</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Preço acessível para pequenos negócios</td>
+          <td><span class="check">A partir de R$ 97</span></td>
+          <td><span class="partial">R$ 150+</span></td>
+          <td><span class="partial">R$ 120+</span></td>
+          <td><span class="cross">Tempo = dinheiro</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- GARANTIA E SELOS -->
+<section>
+  <div class="center">
+    <div class="section-label">Segurança e confiança</div>
+    <h2 class="section-title">Compre com tranquilidade total</h2>
+  </div>
+
+  <div class="garantia-box">
+    <div class="garantia-icon">🛡️</div>
+    <h3>Garantia de 7 dias — devolução total</h3>
+    <p>Testou e não gostou? Sem perguntas, sem burocracia. Devolvemos 100% do valor pago em até 48 horas. Você não tem nada a perder — e muito a ganhar.</p>
+  </div>
+
+  <div class="selos">
+    <div class="selo"><span class="selo-icon">🔒</span> Pagamento 100% seguro</div>
+    <div class="selo"><span class="selo-icon">🛡️</span> Dados criptografados</div>
+    <div class="selo"><span class="selo-icon">🇧🇷</span> Suporte em português</div>
+    <div class="selo"><span class="selo-icon">⚡</span> Acesso imediato</div>
+    <div class="selo"><span class="selo-icon">🔄</span> Cancele quando quiser</div>
+    <div class="selo"><span class="selo-icon">💳</span> PIX e cartão de crédito</div>
+  </div>
+</section>
+
+<!-- PRECOS -->
+<section id="precos" style="background:var(--gray);">
+  <div class="center">
+    <div class="section-label">Planos</div>
+    <h2 class="section-title">Simples e sem surpresas</h2>
+    <p class="section-sub">Comece hoje. Cancele quando quiser. Sem taxa de setup ou fidelidade.</p>
+  </div>
+  <div class="preco-grid">
+    <div class="preco-card">
+      <div class="preco-nome">Mensal</div>
+      <div class="preco-valor">R$ 97<span>/mês</span></div>
+      <div class="preco-anual">Ideal para começar</div>
+      <ul class="preco-lista">
+        <li>Disparos ilimitados de WhatsApp</li>
+        <li>IA gerando variações de mensagem</li>
+        <li>Importação CSV ilimitada</li>
+        <li>Grupos automáticos de contatos</li>
+        <li>Agendamento com janela de horário</li>
+        <li>Envio de imagem, vídeo e áudio</li>
+        <li>Dashboard com métricas</li>
+        <li>Suporte via WhatsApp</li>
+        <li>Garantia de 7 dias</li>
+      </ul>
+      <a href="https://painel-disparador.vercel.app" class="btn-preco btn-preco-outline">Começar agora</a>
+    </div>
+    <div class="preco-card destaque">
+      <div class="preco-badge">💰 Economize 2 meses</div>
+      <div class="preco-nome">Anual</div>
+      <div class="preco-valor">R$ 81<span>/mês</span></div>
+      <div class="preco-anual">R$ 970 à vista — 2 meses grátis</div>
+      <ul class="preco-lista">
+        <li>Tudo do plano mensal</li>
+        <li>Prioridade no suporte</li>
+        <li>Acesso antecipado a novidades</li>
+        <li>Painel com sua marca e logo</li>
+        <li>Sincronização de contatos do WhatsApp</li>
+        <li>Reenvio de campanhas com 1 clique</li>
+        <li>Múltiplas instâncias de WhatsApp</li>
+        <li>Garantia de 7 dias</li>
+      </ul>
+      <a href="https://painel-disparador.vercel.app" class="btn-preco btn-preco-primary">Assinar plano anual</a>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:13px;color:var(--muted);margin-top:1.5rem;">Pagamento via PIX, cartão de crédito ou débito. Acesso liberado imediatamente após confirmação.</p>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="depoi-bg">
+  <div class="center">
+    <div class="section-label">Depoimentos</div>
+    <h2 class="section-title">Quem já usa a DisparaIA</h2>
+    <p class="section-sub">Resultados reais de lojistas e e-commerces brasileiros.</p>
+  </div>
+  <div class="depoi-grid">
+    <div class="depoi-card">
+      <div class="depoi-stars">★★★★★</div>
+      <p class="depoi-text">"Nunca mais tive número banido. A IA muda cada mensagem de um jeito que parece que digitei na hora. Minha taxa de resposta triplicou em 2 semanas."</p>
+      <div class="depoi-autor">
+        <div class="depoi-avatar">MR</div>
+        <div><div class="depoi-nome">Marcos R.</div><div class="depoi-cargo">Loja de roupas — São Paulo/SP</div></div>
+      </div>
+    </div>
+    <div class="depoi-card">
+      <div class="depoi-stars">★★★★★</div>
+      <p class="depoi-text">"Antes ficava até meia-noite enviando mensagem a mão. Agora configuro em 5 minutos e vou dormir. De manhã já tem cliente respondendo e pedindo produto."</p>
+      <div class="depoi-autor">
+        <div class="depoi-avatar">CA</div>
+        <div><div class="depoi-nome">Carla A.</div><div class="depoi-cargo">E-commerce de cosméticos — Rio de Janeiro/RJ</div></div>
+      </div>
+    </div>
+    <div class="depoi-card">
+      <div class="depoi-stars">★★★★★</div>
+      <p class="depoi-text">"Não tenho conhecimento técnico nenhum e consegui criar e disparar minha primeira campanha sozinho em menos de 10 minutos. É muito fácil de usar."</p>
+      <div class="depoi-autor">
+        <div class="depoi-avatar">JP</div>
+        <div><div class="depoi-nome">João P.</div><div class="depoi-cargo">Atacado de calçados — Belo Horizonte/MG</div></div>
+      </div>
+    </div>
+    <div class="depoi-card">
+      <div class="depoi-stars">★★★★★</div>
+      <p class="depoi-text">"Recuperei R$ 8 mil em carrinhos abandonados no primeiro mês. A mensagem personalizada com o nome do cliente faz toda a diferença na conversão."</p>
+      <div class="depoi-autor">
+        <div class="depoi-avatar">FS</div>
+        <div><div class="depoi-nome">Fernanda S.</div><div class="depoi-cargo">Loja virtual de decoração — Curitiba/PR</div></div>
+      </div>
+    </div>
+    <div class="depoi-card">
+      <div class="depoi-stars">★★★★★</div>
+      <p class="depoi-text">"O agendamento por horário é genial. Meus clientes recebem mensagem às 9h da manhã, que é quando estão mais receptivos. Nunca mais incomodei ninguém às 23h."</p>
+      <div class="depoi-autor">
+        <div class="depoi-avatar">RA</div>
+        <div><div class="depoi-nome">Roberto A.</div><div class="depoi-cargo">Farmácia de manipulação — Recife/PE</div></div>
+      </div>
+    </div>
+    <div class="depoi-card">
+      <div class="depoi-stars">★★★★★</div>
+      <p class="depoi-text">"Testei 3 ferramentas antes e todas baniram meu número em menos de uma semana. Com a DisparaIA, são 4 meses sem problema nenhum. Vale cada centavo."</p>
+      <div class="depoi-autor">
+        <div class="depoi-avatar">LM</div>
+        <div><div class="depoi-nome">Lucas M.</div><div class="depoi-cargo">Distribuidora de alimentos — Porto Alegre/RS</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="center">
+    <div class="section-label">Dúvidas frequentes</div>
+    <h2 class="section-title">Perguntas frequentes</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Meu número pode ser banido? <span class="faq-icon">+</span></button>
+      <div class="faq-a">O risco existe em qualquer ferramenta de disparo. A DisparaIA reduz drasticamente esse risco com variações geradas por IA, delays humanizados e simulação de digitação. Recomendamos intervalos de 30 a 60 segundos entre mensagens, respeito ao horário comercial e começar com volumes menores nos primeiros dias.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Preciso de conta WhatsApp Business? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Não é obrigatório. Funciona com número pessoal ou Business. Para disparos maiores, recomendamos um chip dedicado para campanhas, separado do seu número pessoal ou comercial principal.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Quantas mensagens posso enviar por dia? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Não há limite técnico no sistema. Para segurança do seu número, recomendamos no máximo 200–300 mensagens por dia com intervalo de 30–60 segundos, especialmente nos primeiros dias de uso com um número novo.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Como funciona o período de teste? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Você tem 7 dias para testar tudo sem risco. Se não gostar por qualquer motivo, devolvemos 100% do valor pago. Sem perguntas, sem burocracia. Basta enviar um e-mail para contato@disparaia.net.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Posso cancelar quando quiser? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Sim. Não há fidelidade no plano mensal. No plano anual, oferecemos a garantia de 7 dias com reembolso total. Após esse período, o acesso fica ativo até o fim do período contratado.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Meus contatos ficam seguros? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Totalmente. Seus dados ficam em um banco de dados isolado, acessível apenas por você. Nenhum outro cliente da plataforma tem acesso às suas informações. Usamos criptografia em todas as conexões.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Funciona para e-commerce? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Sim! É ideal para recuperação de carrinho abandonado, avisos de promoção, confirmação de pedido, pós-venda e reativação de clientes inativos. Você pode enviar imagens e vídeos dos produtos junto com a mensagem.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Preciso instalar algum programa? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Não. Tudo funciona pelo navegador. Acesse de qualquer computador, tablet ou celular. Não há instalação, não há configuração técnica complexa. Você cria sua conta e já começa a usar.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Quais formas de pagamento são aceitas? <span class="faq-icon">+</span></button>
+      <div class="faq-a">Aceitamos PIX (liberação imediata), cartão de crédito (em até 12x) e cartão de débito. O acesso é liberado automaticamente após a confirmação do pagamento.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cadastro" class="cta-final">
+  <h2>Comece a vender mais hoje mesmo</h2>
+  <p>7 dias grátis, sem cartão de crédito. Cancele quando quiser. Suporte em português.</p>
+  <a href="https://painel-disparador.vercel.app" class="btn-white">Criar minha conta grátis →</a>
+  <div class="cta-garantia">✓ 7 dias grátis &nbsp;·&nbsp; ✓ Sem fidelidade &nbsp;·&nbsp; ✓ Acesso imediato &nbsp;·&nbsp; ✓ Suporte via WhatsApp</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Dispara<span>IA</span></div>
+      <p class="footer-desc">A ferramenta de disparo de WhatsApp com inteligência artificial que humaniza cada mensagem automaticamente. Mais vendas, sem ban, sem robô.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Produto</h4>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#recursos">Recursos</a>
+      <a href="#comparativo">Comparativo</a>
+      <a href="#precos">Preços</a>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <a href="#">Sobre nós</a>
+      <a href="#">Blog</a>
+      <a href="mailto:contato@disparaia.net">Contato</a>
+      <a href="#">Afiliados</a>
+    </div>
+    <div class="footer-col">
+      <h4>Suporte</h4>
+      <a href="#faq">FAQ</a>
+      <a href="#">Termos de uso</a>
+      <a href="#">Privacidade</a>
+      <a href="https://wa.me/55SEUNUMERO">WhatsApp</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 DisparaIA · disparaia.net · Todos os direitos reservados</span>
+    <span>Feito com ❤️ no Brasil 🇧🇷</span>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(i => i.textContent = '+');
+    if (!isOpen) { answer.classList.add('open'); icon.textContent = '−'; }
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+
+</body>
+</html>
