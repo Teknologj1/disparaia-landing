@@ -176,8 +176,8 @@
     }
   </style>
 </head>
-<body>
 
+<body>
 <!-- NAV -->
 <nav>
   <div class="logo">Dispara<span>IA</span></div>
@@ -188,7 +188,7 @@
     <a href="#precos">Preços</a>
     <a href="#faq">FAQ</a>
   </div>
-  <a href="https://painel-disparador.vercel.app" class="nav-cta">Começar grátis</a>
+  <a onclick="abrirCheckout('starter','mensal','Plano Mensal — R$ 97/mês')" class="btn-white" style="cursor:pointer;">Criar minha conta grátis →</a>
 </nav>
 
 <!-- HERO -->
@@ -197,7 +197,7 @@
   <h1>Dispare mensagens no WhatsApp que <span>parecem escritas por você</span></h1>
   <p>A DisparaIA usa inteligência artificial para humanizar cada mensagem automaticamente. Mais vendas, zero risco de bloqueio para seu varejo ou e-commerce.</p>
   <div class="hero-btns">
-    <a href="https://painel-disparador.vercel.app" class="btn-primary">Testar grátis por 7 dias</a>
+    <a onclick="abrirCheckout('starter','mensal','Plano Mensal — R$ 97/mês')" class="btn-preco btn-preco-outline" style="cursor:pointer;">Começar agora</a>
     <a href="#como-funciona" class="btn-secondary">Ver como funciona →</a>
   </div>
   <div class="hero-stats">
@@ -571,7 +571,7 @@
         <li>Suporte via WhatsApp</li>
         <li>Garantia de 7 dias</li>
       </ul>
-      <a href="https://painel-disparador.vercel.app" class="btn-preco btn-preco-outline">Começar agora</a>
+      <a onclick="abrirCheckout('starter','mensal','Plano Mensal — R$ 97/mês')" class="btn-preco btn-preco-outline" style="cursor:pointer;">Começar agora</a>
     </div>
     <div class="preco-card destaque">
       <div class="preco-badge">💰 Economize 2 meses</div>
@@ -588,7 +588,7 @@
         <li>Múltiplas instâncias de WhatsApp</li>
         <li>Garantia de 7 dias</li>
       </ul>
-      <a href="https://painel-disparador.vercel.app" class="btn-preco btn-preco-primary">Assinar plano anual</a>
+      <a onclick="abrirCheckout('starter','anual','Plano Anual — R$ 970/ano (2 meses grátis)')" class="btn-preco btn-preco-primary" style="cursor:pointer;">Assinar plano anual</a>
     </div>
   </div>
   <p style="text-align:center;font-size:13px;color:var(--muted);margin-top:1.5rem;">Pagamento via PIX, cartão de crédito ou débito. Acesso liberado imediatamente após confirmação.</p>
@@ -703,7 +703,7 @@
 <section id="cadastro" class="cta-final">
   <h2>Comece a vender mais hoje mesmo</h2>
   <p>7 dias grátis, sem cartão de crédito. Cancele quando quiser. Suporte em português.</p>
-  <a href="https://painel-disparador.vercel.app" class="btn-white">Criar minha conta grátis →</a>
+  <a onclick="abrirCheckout('starter','mensal','Plano Mensal — R$ 97/mês')" class="btn-preco btn-preco-outline" style="cursor:pointer;">Começar agora</a>
   <div class="cta-garantia">✓ 7 dias grátis &nbsp;·&nbsp; ✓ Sem fidelidade &nbsp;·&nbsp; ✓ Acesso imediato &nbsp;·&nbsp; ✓ Suporte via WhatsApp</div>
 </section>
 
@@ -757,6 +757,105 @@
       const target = document.querySelector(a.getAttribute('href'));
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
     });
+  });
+</script>
+
+<!-- MODAL DE CHECKOUT -->
+<div id="modal-checkout" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:16px; padding:2rem; width:100%; max-width:480px; margin:1rem;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+      <h2 style="font-size:20px; font-weight:700;">Criar sua conta</h2>
+      <button onclick="fecharModal()" style="background:none; border:none; font-size:24px; cursor:pointer; color:#888;">×</button>
+    </div>
+
+    <div id="plano-selecionado" style="background:#f0f4ff; border:1.5px solid #6366f1; border-radius:10px; padding:12px 16px; margin-bottom:1.5rem; font-size:14px; color:#4f46e5; font-weight:500;"></div>
+
+    <form id="form-checkout" onsubmit="handleCheckout(event)">
+      <div style="margin-bottom:1rem;">
+        <label style="font-size:13px; color:#555; display:block; margin-bottom:6px;">Nome completo</label>
+        <input id="checkout-nome" type="text" placeholder="Seu nome" required
+          style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; font-size:14px; box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <label style="font-size:13px; color:#555; display:block; margin-bottom:6px;">E-mail</label>
+        <input id="checkout-email" type="email" placeholder="seu@email.com" required
+          style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; font-size:14px; box-sizing:border-box;">
+      </div>
+
+      <button type="submit" id="btn-checkout" style="width:100%; padding:13px; background:#6366f1; color:#fff; border:none; border-radius:10px; font-size:16px; font-weight:600; cursor:pointer;">
+        Continuar para pagamento →
+      </button>
+      <p style="font-size:12px; color:#888; text-align:center; margin-top:12px;">
+        🔒 Pagamento 100% seguro via Mercado Pago · PIX e cartão
+      </p>
+    </form>
+  </div>
+</div>
+
+<script>
+  const API = 'https://disparador-ia-production.up.railway.app';
+  let planoAtual = { plano: 'starter', periodo: 'mensal', label: 'Starter Mensal — R$ 97/mês' };
+
+  function abrirCheckout(plano, periodo, label) {
+    planoAtual = { plano, periodo, label };
+    document.getElementById('plano-selecionado').textContent = '✓ ' + label;
+    document.getElementById('modal-checkout').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fecharModal() {
+    document.getElementById('modal-checkout').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  async function handleCheckout(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-checkout');
+    btn.textContent = 'Aguarde...';
+    btn.disabled = true;
+
+    const nome = document.getElementById('checkout-nome').value;
+    const email = document.getElementById('checkout-email').value;
+
+    try {
+      // Cria conta no sistema
+      const regRes = await fetch(`${API}/tenant/registrar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome_empresa: nome,
+          email,
+          senha: Math.random().toString(36).slice(-8) + 'A1!',
+          nome
+        })
+      });
+
+      const regData = await regRes.json();
+      if (!regRes.ok) throw new Error(regData.erro || 'Erro ao criar conta');
+
+      // Cria preferência de pagamento
+      const pagRes = await fetch(`${API}/pagamento/criar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, plano: planoAtual.plano, periodo: planoAtual.periodo })
+      });
+
+      const pagData = await pagRes.json();
+      if (!pagRes.ok) throw new Error(pagData.erro || 'Erro ao criar pagamento');
+
+      // Redireciona para o Mercado Pago
+      window.location.href = pagData.init_point;
+
+    } catch (err) {
+      alert('Erro: ' + err.message);
+      btn.textContent = 'Continuar para pagamento →';
+      btn.disabled = false;
+    }
+  }
+
+  // Fecha modal clicando fora
+  document.getElementById('modal-checkout').addEventListener('click', function(e) {
+    if (e.target === this) fecharModal();
   });
 </script>
 
